@@ -82,8 +82,14 @@ function App() {
 
   return (
     <div className='bg-gray-400 flex flex-col min-h-screen items-center justify-center text-stone-800'>
-      <form onSubmit={handleCreateDeck} className='space-x-6'>
-        <label htmlFor='deck-title' className='text-xl font-semibold'>
+      <form
+        onSubmit={handleCreateDeck}
+        className='flex flex-col text-right space-y-6 md:flex-row md:space-x-6 md:space-y-0'
+      >
+        <label
+          htmlFor='deck-title'
+          className='text-xl font-semibold text-left md:pt-1'
+        >
           Deck Title
         </label>
         <input

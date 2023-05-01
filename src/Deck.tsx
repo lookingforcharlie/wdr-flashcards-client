@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { CiSaveDown2 } from 'react-icons/ci';
+import { AiOutlineDelete, AiOutlineSave } from 'react-icons/ai';
 import { RiEditBoxLine } from 'react-icons/ri';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { createCard, deleteCard } from './api/cards';
 import { API_URL } from './api/config';
@@ -96,6 +95,13 @@ const Deck = () => {
           );
         })}
       </ul>
+      <div className='mt-12'>
+        <Link to='/'>
+          <button className='border border-stone-800 px-8 py-3 shadow-lg hover:scale-95 duration-200'>
+            Back to Decks
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };
