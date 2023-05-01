@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { CiSaveDown2 } from 'react-icons/ci';
-import { RiEditBoxLine } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
 
 import { API_URL } from './api/config';
 import { createDeck, deleteDeck } from './api/decks';
+import Decks from './Decks';
+
+export type card = {
+  front: string;
+  back: string;
+};
 
 export type TDeck = {
   _id: string;
@@ -31,8 +33,8 @@ function App() {
   useEffect(() => {
     // create AbortController that built in the browser for the cleanup func below
     // take a signal from the AbortController, put into your fetch request below
-    const controller = new AbortController();
-    const signal = controller.signal;
+    // const controller = new AbortController();
+    // const signal = controller.signal;
     try {
       // fetch returns an object that has a .json() method
       fetch(`${API_URL}/decks`).then(async (res) => {
@@ -46,9 +48,9 @@ function App() {
     // fetchDeck();
 
     // clean up function here cancel the fetch request, and none of fetch code will run
-    return () => {
-      controller.abort();
-    };
+    // return () => {
+    //   controller.abort();
+    // };
 
     // Regarding clean up function: [https://www.youtube.com/watch?v=Wu0rVQuawLU&t=46s]
   }, []);
@@ -102,19 +104,14 @@ function App() {
               key={item._id}
               className='relative flex flex-col items-center justify-center bg-gray-300 shadow-lg border border-stone-800 p-12  hover:bg-gray-200'
             >
-              <Link to={`/decks/${item._id}`} className='hover:opacity-80'>
-                {item.title}
-              </Link>
-              {/* <div className='text-center'>{item._id}</div> */}
-              <div className='absolute top-4 right-4'>
-                <AiOutlineDelete
-                  onClick={() => handleDeleteDeck(item._id)}
-                  className='hover:cursor-pointer'
-                />
-              </div>
-              <div className='absolute top-4 right-10 text-base'>
-                <RiEditBoxLine className='hover:cursor-pointer' />
-              </div>
+              <Decks
+                handleDeleteDeck={handleDeleteDeck}
+                item={item}
+                title={title}
+                setTitle={setTitle}
+                setDecks={setDecks}
+                decks={decks}
+              />
             </li>
           );
         })}
