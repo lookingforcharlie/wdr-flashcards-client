@@ -4,15 +4,16 @@ import { API_URL } from './api/config';
 import { createDeck, deleteDeck } from './api/decks';
 import Decks from './Decks';
 
-export type card = {
+export type TCard = {
   front: string;
   back: string;
+  _id: string;
 };
 
 export type TDeck = {
   _id: string;
   title: string;
-  cards: string[];
+  cards: TCard[];
 };
 
 function App() {

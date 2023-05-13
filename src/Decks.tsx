@@ -6,11 +6,11 @@ import { TDeck } from './App';
 import { API_URL } from './api/config';
 
 type Props = {
-  handleDeleteDeck: (id: string) => void;
+  handleDeleteDeck: (deckId: string) => Promise<void>;
   item: TDeck;
   title: string;
-  setTitle: (value: string) => void;
-  setDecks: (value: TDeck[]) => void;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  setDecks: React.Dispatch<React.SetStateAction<TDeck[]>>;
   decks: TDeck[];
 };
 const Decks = (Props: Props) => {
@@ -88,6 +88,3 @@ const Decks = (Props: Props) => {
 };
 
 export default Decks;
-function setEditable(arg0: boolean) {
-  throw new Error('Function not implemented.');
-}

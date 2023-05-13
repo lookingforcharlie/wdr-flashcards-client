@@ -1,7 +1,11 @@
-import { TDeck } from '../App';
+import { TCard } from '../App';
 import { API_URL } from './config';
 
-export async function createCard(text: string, deckId: string): Promise<TDeck> {
+export async function createCard(
+  textFront: string,
+  textBack: string,
+  deckId: string
+): Promise<TCard[]> {
   // without headers, body ain't gonna  be sent over to API, because by default, 'content-type' is text/plain
   const res = await fetch(`${API_URL}/decks/${deckId}/cards`, {
     method: 'POST',
@@ -9,11 +13,12 @@ export async function createCard(text: string, deckId: string): Promise<TDeck> {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      text,
+      textFront,
+      textBack,
     }),
   });
   const data = await res.json();
-  return data;
+  return data.cards;
 }
 
 export async function deleteCard(deckId: string, cardIdx: number) {
