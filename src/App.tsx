@@ -58,6 +58,8 @@ function App() {
 
   const handleCreateDeck = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (title.trim() === '') return;
     // When we submit, we need to talk with backend API to persist the deck
     // we got CORS error, because by default browser is not allowed to access URLs that do not match the  same hostname you are on
     // to bypass that we need setup CORS on API
@@ -77,12 +79,14 @@ function App() {
       console.log(error);
     }
 
+    // Optimistic update: delete deck from decks directly on the front-end
     // filter: put items in a new array when callback function return true
     setDecks((prev) => prev.filter((deck) => deck._id !== deckId));
+    // Alternative way: refetch the decks from MongoDB
   };
 
   return (
-    <div className='bg-gray-400 flex flex-col min-h-screen items-center justify-center text-stone-800'>
+    <div className='bg-gray-400 flex flex-col min-h-screen items-center justify-start text-stone-800 pt-16'>
       <form
         onSubmit={handleCreateDeck}
         className='flex flex-col text-right space-y-6 md:flex-row md:space-x-6 md:space-y-0'
@@ -95,6 +99,8 @@ function App() {
         </label>
         <input
           id='deck-title'
+          required
+          placeholder='Your new deck name'
           className='text-black px-4 py-2 rounded-md focus:outline-none'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -104,12 +110,12 @@ function App() {
           Create a Deck
         </button>
       </form>
-      <ul className='mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 p-6 mx-auto'>
+      <ul className='mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 p-6 justify-items-stretch mx-auto'>
         {decks.map((item) => {
           return (
             <li
               key={item._id}
-              className='relative flex flex-col items-center justify-center bg-gray-300 shadow-lg border border-stone-800 p-12  hover:bg-gray-200'
+              className='relative flex flex-col items-center justify-center bg-gray-300 shadow-lg border border-stone-800 rounded-md p-12  hover:bg-gray-200'
             >
               <Decks
                 handleDeleteDeck={handleDeleteDeck}

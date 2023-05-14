@@ -41,6 +41,8 @@ const Deck = () => {
 
   const handleCreateCard = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (textFront.trim() === '' || textBack.trim() === '') return;
+
     // when isEditable is false, it's simply a Create Card function
     if (isEditable === false) {
       const cardText = await createCard(textFront, textBack, deckId!);
@@ -48,7 +50,7 @@ const Deck = () => {
       setCards(cardText);
     }
 
-    // when isEditable is true, it's a modify card function
+    // when isEditable is true, modify card function kicks in
     if (isEditable === true) {
       // modify card function
       console.log('inside isEditable is true:', modifyCardIndex);
@@ -69,9 +71,6 @@ const Deck = () => {
       const data = await res.json();
       setIsEditable(false);
       setCards(data);
-      setTextFront('');
-      setTextBack('');
-      return data;
     }
 
     setTextFront('');
@@ -94,39 +93,51 @@ const Deck = () => {
   };
 
   return (
-    <div className='bg-gray-400 flex flex-col min-h-screen items-center justify-center text-stone-800'>
-      <h3>You are looking at Deck of</h3>
-      {deck?.title}
-      {/* <h3>You are looking at deck of{deck!.title}</h3> */}
-      <form onSubmit={handleCreateCard} className='space-x-6'>
-        <label htmlFor='front-text' className='text-xl font-semibold'>
-          Front side Card Text
-        </label>
-        <input
-          id='front-text'
-          required
-          className='text-black px-4 py-2 rounded-md focus:outline-none'
-          value={textFront}
-          onChange={(e) => setTextFront(e.target.value)}
-        />
-        <label htmlFor='back-text' className='text-xl font-semibold'>
-          Back side Card Text
-        </label>
-        <input
-          id='back-text'
-          required
-          className='text-black px-4 py-2 rounded-md focus:outline-none'
-          value={textBack}
-          onChange={(e) => setTextBack(e.target.value)}
-        />
+    <div className='bg-gray-400 flex flex-col min-h-screen items-center justify-start text-stone-800 pt-16'>
+      <div className=' px-8 mb-8'>
+        <div className='flex flex-row'>
+          <h1>You are in the Deck of &nbsp;</h1>
+          <span className='text-blue-800'>{deck?.title}</span>
+        </div>
+      </div>
+
+      <form
+        onSubmit={handleCreateCard}
+        className='border border-stone-800 flex flex-col rounded-md items-start justify-start gap-6 py-8 px-10'
+      >
+        <div className='space-x-6'>
+          <label htmlFor='front-text' className='text-xl font-semibold'>
+            Front side
+          </label>
+          <input
+            id='front-text'
+            required
+            className='text-black px-4 py-1 rounded-md focus:outline-none'
+            value={textFront}
+            onChange={(e) => setTextFront(e.target.value)}
+          />
+        </div>
+
+        <div className='space-x-6'>
+          <label htmlFor='back-text' className='text-xl font-semibold'>
+            Back side
+          </label>
+          <input
+            id='back-text'
+            required
+            className='text-black px-4 py-1 rounded-md focus:outline-none'
+            value={textBack}
+            onChange={(e) => setTextBack(e.target.value)}
+          />
+        </div>
         {/* button inside form will submit by default */}
 
         {isEditable === true ? (
-          <button className='bg-green-500 text-blue-800 px-4 py-2 rounded-lg shadow-lg hover:opacity-70 hover:scale-95 duration-300'>
+          <button className='bg-green-500 text-blue-800 px-6 py-2 rounded-lg shadow-lg hover:opacity-70 hover:scale-95 duration-300'>
             Save the Card
           </button>
         ) : (
-          <button className='bg-orange-500 text-blue-800 px-4 py-2 rounded-lg shadow-lg hover:opacity-70 hover:scale-95 duration-300'>
+          <button className='bg-orange-500 text-blue-800 px-6 py-2 rounded-lg shadow-lg hover:opacity-70 hover:scale-95 duration-300'>
             Create a Card
           </button>
         )}
@@ -154,7 +165,7 @@ const Deck = () => {
       {/* Back to Decks Button */}
       <div className='mt-12'>
         <Link to='/'>
-          <button className='border border-stone-800 px-8 py-3 shadow-lg hover:scale-95 duration-200'>
+          <button className='border border-stone-800 px-8 py-3 rounded-md shadow-lg hover:scale-95 duration-200'>
             Back to Decks
           </button>
         </Link>
